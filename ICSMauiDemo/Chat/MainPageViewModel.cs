@@ -26,7 +26,7 @@ namespace ICSMauiDemo.Chat
         public Command ConnectCommand { get; }
         public Command DisconnectCommand { get; }
         public Action RefreshScrollDown;
-        public Action RefreshScrollDownAnimated;
+        //public Action RefreshScrollDownAnimated;
 
         public MainPageViewModel()
         {
@@ -38,14 +38,6 @@ namespace ICSMauiDemo.Chat
             signalR.NewMessageReceived += SignalR_NewMessageReceived;
 
             Messages = new ObservableCollection<ChatMessageModel>();
-
-            //Messages.Add(new ChatMessageModel
-            //{
-            //    UserName = "tony",
-            //    Text = "test message"
-            //});
-
-            UserName = "What's your name?";
 
             SendMessageCommand = new Command(async () => await SendMessage());
             ConnectCommand = new Command(async () => await Connect());
@@ -157,24 +149,9 @@ namespace ICSMauiDemo.Chat
             return Task.FromResult(false);
         }
 
-
-        
-
-
-
-
-
-
-
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public bool IsConnected()
-        {
-            var current = Connectivity.NetworkAccess;
-            return current == NetworkAccess.Internet ? true : false;
         }
 
         private async Task Connect()
@@ -213,24 +190,16 @@ namespace ICSMauiDemo.Chat
                     return;
                 }
 
-                // save to db. if error, show dialog box and dont display message
-                bool savedToDb = await SaveMessageToDatabase();
-                if (!savedToDb)
-                {
-                    IsBusy = false;
-                }
-                else
-                {
-                    //await signalR.SendMessageAsync(_settingsService.UserNameSetting, MessageToSave);
-                    MessageToSave = string.Empty;
+                await SaveMessageToDatabase();
 
-                    IsBusy = false;
-                }
+                await signalR.SendMessageAsync(UserName, MessageToSave);
+                MessageToSave = string.Empty;
             }
             catch (Exception ex)
             {
-                IsBusy = false;
+                
             }
+            IsBusy = false;
         }
 
         void SignalR_ConnectionChanged(object sender, bool success, string message)
@@ -251,7 +220,7 @@ namespace ICSMauiDemo.Chat
                 UserName = message.Name,
                 Text = message.Text,
                 MessageDateTimeStr = ConvertDateTimeToReadableString(DateTime.Now),
-                //IsIncoming = message.Name.Equals(_settingsService.UserNameSetting) ? false : true
+                IsIncoming = message.Name.Equals(UserName) ? false : true
             };
 
             AddLocalMessage(finalMessage);
@@ -259,31 +228,31 @@ namespace ICSMauiDemo.Chat
 
         void AddLocalMessage(ChatMessageModel message)
         {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                Messages.Add(message);
-            });
+            Messages.Add(message);
 
-            RefreshScrollDownAnimated();
+            //Device.BeginInvokeOnMainThread(() =>
+            //{
+            //    Messages.Add(message);
+            //});
+
+            RefreshScrollDown();
         }
 
         private async Task GetRecentMessages()
         {
             Messages = await _chatDataService.GetChatMessagesAsync();
 
-            //RefreshScrollDown();
+            RefreshScrollDown();
         }
 
-        private async Task<bool> SaveMessageToDatabase()
+        private async Task SaveMessageToDatabase()
         {
-            bool result = await _chatDataService.SaveChatMessageAsync(new ChatMessageToSaveModel
+            await _chatDataService.SaveChatMessageAsync(new ChatMessageToSaveModel
             {
-                //UserName = _settingsService.UserNameSetting,
+                UserName = UserName,
                 Text = MessageToSave,
-                MessageDateTime = DateTime.Now
+                MessageDateTime = DateTime.UtcNow
             });
-
-            return result;
         }
 
         private string ConvertDateTimeToReadableString(DateTime date)

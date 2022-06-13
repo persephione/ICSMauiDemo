@@ -36,33 +36,34 @@ public partial class MainPage : ContentPage
             {
                 if (VM.Messages.Count > 0)
                 {
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        //MessagesListView.ScrollTo(VM.Messages[VM.Messages.Count - 1], ScrollToPosition.End, false);
-                    });
+                    MessagesListView.ScrollTo(VM.Messages.Count-1);
+                    //Device.BeginInvokeOnMainThread(() =>
+                    //{
+                    //    MessagesListView.ScrollTo(VM.Messages.Count);
+                    //});
                 }
             };
 
-            VM.RefreshScrollDownAnimated = () =>
-            {
-                if (VM.Messages.Count > 0)
-                {
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        //MessagesListView.ScrollTo(VM.Messages[VM.Messages.Count - 1], ScrollToPosition.End, true);
-                    });
-                }
-            };
+            //VM.RefreshScrollDownAnimated = () =>
+            //{
+            //    if (VM.Messages.Count > 0)
+            //    {
+            //        Device.BeginInvokeOnMainThread(() =>
+            //        {
+            //            MessagesListView.ScrollTo(VM.Messages.Count);
+            //        });
+            //    }
+            //};
         }
     }
 
     private async void NameButtonClicked(object sender, EventArgs e)
     {
         // set the username
-        var username = await DisplayPromptAsync("Enter something", "Please enter something", keyboard: Keyboard.Numeric);
+        //var username = await DisplayPromptAsync("Enter something", "Please enter something", keyboard: Keyboard.Numeric);
 
         // TODO: Remove this after testing
-        //var username = "tina";
+        var username = "tina";
 
         if (string.IsNullOrEmpty(username))
             return;

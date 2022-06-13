@@ -1,20 +1,11 @@
-﻿
-//using MvvmHelpers;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace ICSMauiDemo.Chat
 {
     public class ChatDataService
     {
-//#if DEBUG
-        //public const string BaseApiUrl = "https://10.0.2.2:44394/"; // for emulator debugging.
-        public const string BaseApiUrl = "https://icschatdemoapi.azurewebsites.net/"; // device testing use the live test url
-//#else
-//        public const string BaseApiUrl = "https://laorejaapi.azurewebsites.net/"; // live prod api
-//#endif
+        public const string BaseApiUrl = "https://icschatdemoapi.azurewebsites.net/";
+
         public string GetMostRecentMessagesEndpoint(int lang) => $"/getmostrecentmessages/{lang}";
         public const string SaveMessageEndpoint = "/savemessage";
 
@@ -72,7 +63,7 @@ namespace ICSMauiDemo.Chat
             }
         }
 
-        public async Task<bool> SaveChatMessageAsync(ChatMessageToSaveModel model)
+        public async Task SaveChatMessageAsync(ChatMessageToSaveModel model)
         {
             // detect language first
             var language = await _languageService.DetectLanguage(model.Text);
@@ -94,8 +85,6 @@ namespace ICSMauiDemo.Chat
             }
 
             await _genericRepository.PostAsync(model);
-
-            return false;
         }
 
         private string ConvertDateTimeToReadableString(DateTime date)

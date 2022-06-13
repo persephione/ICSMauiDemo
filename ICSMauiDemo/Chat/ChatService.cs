@@ -63,12 +63,14 @@ namespace ICSMauiDemo.Chat
             var newMessage = new AzureChatMessageModel
             {
                 Name = username,
-                Text = message
+                Text = message,
+                TimeReceived = DateTime.UtcNow
             };
 
             var json = JsonConvert.SerializeObject(newMessage);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var result = await client.PostAsync($"{SignalRConstants.HostName}/api/talk", content);
+            //var result = await client.PostAsync($"{SignalRConstants.HostName}/api/talk", content);
+            var result = await client.PostAsync("https://icsdemochathub.azurewebsites.net/api/talk", content);
 
             IsBusy = false;
         }
@@ -79,7 +81,7 @@ namespace ICSMauiDemo.Chat
             {
                 Name = message.GetValue("name").ToString(),
                 Text = message.GetValue("text").ToString(),
-                TimeReceived = DateTime.Now
+                TimeReceived = DateTime.UtcNow
             };
 
             NewMessageReceived?.Invoke(this, messageModel);
