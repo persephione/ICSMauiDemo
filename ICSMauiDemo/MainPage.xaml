@@ -22,7 +22,7 @@
                            Padding="10" 
                            Margin="5"
                            BorderColor="#5f87f5">
-                        <Label Text="{Binding MessageText}"
+                        <Label Text="{Binding Text}"
                                HorizontalOptions="Start"
                                FontSize="14" 
                                TextColor="White"/>
@@ -39,7 +39,7 @@
                            Padding="10"
                            Margin="5"
                            BorderColor="White">
-                        <Label Text="{Binding MessageText}"
+                        <Label Text="{Binding Text}"
                                HorizontalOptions="Start"
                                FontSize="14" 
                                TextColor="#083a8a"/>
@@ -50,97 +50,42 @@
             <chat:ChatMessageDataTemplateSelector x:Key="ChatMessageTemplateSelector"
                 ReceivedMessageTemplate="{StaticResource ReceivedMessageTemplate}"
                 SentMessageTemplate="{StaticResource SentMessageTemplate}"/>
-
         </ResourceDictionary>
-
     </ContentPage.Resources>
 
-    <CollectionView ItemTemplate="{StaticResource ChatMessageTemplateSelector}">
-        <CollectionView.ItemsSource>
-            <x:Array Type="{x:Type models:ChatMessage}">
-                <models:ChatMessage MessageText="what up tina" UserName="tony"/>
-                <models:ChatMessage MessageText="hey tony" UserName="tina"/>
-                <models:ChatMessage MessageText="what are you up to?" UserName="tony"/>
-                <models:ChatMessage MessageText="throwing together my first maui app" UserName="tina"/>
-                <models:ChatMessage MessageText="awesome. can i cameo in your presentation?" UserName="tony"/>
-                <models:ChatMessage MessageText="i guess" UserName="tina"/>
-            </x:Array>
-        </CollectionView.ItemsSource>
-    </CollectionView>
-
-
-
-    <!--<ContentPage.Resources>
-        <ResourceDictionary>
-            <DataTemplate x:Key="incomingViewTemplate">
-                <ViewCell>
-                    <Grid BackgroundColor="Red">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.4*" />
-                        </Grid.ColumnDefinitions>
-                        <Label Text="Tony" TextColor="Green" FontAttributes="Bold" />
-                    </Grid>
-                </ViewCell>
-            </DataTemplate>
-
-            <DataTemplate x:Key="outgoingViewTemplate">
-                <ViewCell>
-                    <Grid BackgroundColor="Yellow">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.4*" />
-                        </Grid.ColumnDefinitions>
-                        <Label Text="Tina" TextColor="Red" FontAttributes="Bold" />
-                    </Grid>
-                </ViewCell>
-            </DataTemplate>
-
-            <local:MyDataTemplateSelector 
-                x:Key="myDataTemplateSelector"
-                IncomingTemplate="{StaticResource incomingViewTemplate}" 
-                OutgoingTemplate="{StaticResource outgoingViewTemplate}" />
-        </ResourceDictionary>
-    </ContentPage.Resources>-->
-
-    <!--<StackLayout Margin="20">
-        <Label Text="ListView with a DataTemplateSelector" 
-               FontAttributes="Bold" 
-               HorizontalOptions="Center"
-               TextColor="Red"/>
-        <ListView x:Name="listView" 
-                  Margin="0,20,0,0" ItemTemplate="{StaticResource myDataTemplateSelector}" />
-    </StackLayout>-->
-
-    <!--<Grid RowSpacing="0" ColumnSpacing="0">
+    <Grid RowSpacing="0" ColumnSpacing="0">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListView Grid.Row="0" 
-			      x:Name="MessagesListView" 
-			      ItemTemplate="{StaticResource MyDataTemplateSelector}" 
-			      ItemsSource="{Binding Messages}" 
-			      HasUnevenRows="True" 
-			      SeparatorVisibility="None"
-                  BackgroundColor="Red"
-                  MinimumHeightRequest="500"/>
-
-        <StackLayout Orientation="Horizontal" Grid.Row="1" Padding="10" BackgroundColor="Yellow">
-            <Button 
+        <Button Grid.Row="0" 
                 x:Name="NameBtn"
-                Text="{Binding UserName}"
-                SemanticProperties.Hint="UserName"
+                Text="Online"
+                SemanticProperties.Hint="Online"
                 Clicked="NameButtonClicked"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center"
+                TextColor="White"
+                Padding="20,5,20,5"
+                BackgroundColor="#5bbc93"/>
 
+        <CollectionView Grid.Row="1"  
+			            x:Name="MessagesListView"
+                        ItemsSource="{Binding Messages}"
+                        ItemTemplate="{StaticResource ChatMessageTemplateSelector}" />
+
+        <StackLayout Orientation="Horizontal" Grid.Row="2" Padding="10" BackgroundColor="#ededed">
             <controls:RoundedEntry 
 			    HorizontalOptions="FillAndExpand"
-                BackgroundColor="#e6eff4"
-                TextColor="Black"
+                BackgroundColor="White"
+                TextColor="#083a8a"
                 HeightRequest="36"
                 FontSize="16"
                 MaxLength="500"
+                CornerRadius="25"
 				Text="{Binding OutGoingText}"/>
+            
             <Button 
 				Text="Send" 
                 HeightRequest="36"
@@ -148,5 +93,5 @@
                 TextColor="White"
 				Command="{Binding SendMessageCommand}"/>
         </StackLayout>
-    </Grid>-->
+    </Grid>
 </ContentPage>

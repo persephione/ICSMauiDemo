@@ -55,9 +55,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="MessagesPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Templates\CustomChatCells\IncomingViewCell.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

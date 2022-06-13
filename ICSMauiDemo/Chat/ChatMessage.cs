@@ -6,12 +6,6 @@ using System.Threading.Tasks;
 
 namespace ICSMauiDemo.Chat
 {
-    //public enum MessageOwner
-    //{
-    //    CurrentUser,
-    //    OtherUser
-    //}
-
     public class ChatMessage : BindableObject
     {
         public string MessageText { get; set; }

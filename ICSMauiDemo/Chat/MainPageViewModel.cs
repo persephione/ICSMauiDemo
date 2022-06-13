@@ -39,20 +39,17 @@ namespace ICSMauiDemo.Chat
 
             Messages = new ObservableCollection<ChatMessageModel>();
 
-            Messages.Add(new ChatMessageModel
-            {
-                UserName = "tina",
-                Text = "test message",
-                MessageDateTimeStr = "06/12/2022"
-            });
+            //Messages.Add(new ChatMessageModel
+            //{
+            //    UserName = "tony",
+            //    Text = "test message"
+            //});
 
             UserName = "What's your name?";
 
             SendMessageCommand = new Command(async () => await SendMessage());
             ConnectCommand = new Command(async () => await Connect());
 
-
-            
         }
 
         #region Properties

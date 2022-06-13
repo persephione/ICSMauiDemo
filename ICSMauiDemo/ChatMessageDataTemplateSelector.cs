@@ -9,12 +9,12 @@ namespace ICSMauiDemo
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            ChatMessage message = item as ChatMessage;
+            var messageVm = item as ChatMessageModel;
 
-            if (message.UserName == "tina")
-                return SentMessageTemplate;
-            else
-                return ReceivedMessageTemplate;
+            if (messageVm == null)
+                return null;
+
+            return messageVm.IsIncoming ? ReceivedMessageTemplate : SentMessageTemplate;
         }
     }
 }
