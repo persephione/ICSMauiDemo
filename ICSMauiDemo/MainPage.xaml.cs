@@ -45,10 +45,10 @@ public partial class MainPage : ContentPage
     private async void NameButtonClicked(object sender, EventArgs e)
     {
         // set the username
-        //var username = await DisplayPromptAsync("Enter something", "Please enter something", keyboard: Keyboard.Numeric);
+        var username = await DisplayPromptAsync("UserName", "What's your username?");
 
         // TODO: Remove this after testing
-        var username = "tina";
+        //var username = "tina";
 
         if (string.IsNullOrEmpty(username))
             return;
