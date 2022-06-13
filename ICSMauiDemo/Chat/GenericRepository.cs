@@ -11,21 +11,21 @@ namespace ICSMauiDemo.Chat
 {
     public class GenericRepository
     {
-        private readonly ILogger _logger;
+        //private readonly ILogger _logger;
 
-        public GenericRepository(ILogger logger)
+        public GenericRepository()
         {
-            _logger = logger;
+            //_logger = logger;
         }
 
-        public async Task<List<ChatMessageModel>> GetAsync()
+        public async Task<List<ChatMessageModel>> GetAsync(int lang)
         {
             try
             {
                 HttpClient client = new HttpClient();
                 List<ChatMessageModel> list = null;
 
-                HttpResponseMessage response = await client.GetAsync("https://icschatdemoapi.azurewebsites.net/api/GetMostRecentMessages");
+                HttpResponseMessage response = await client.GetAsync($"https://icschatdemoapi.azurewebsites.net/api/GetMostRecentMessages/{lang}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -36,7 +36,7 @@ namespace ICSMauiDemo.Chat
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exception: {ex.Message}");
+               // _logger.LogError($"Exception: {ex.Message}");
                 return null;
             }
         }
@@ -51,7 +51,7 @@ namespace ICSMauiDemo.Chat
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exception: {ex.Message}");
+               // _logger.LogError($"Exception: {ex.Message}");
             }
         }
 

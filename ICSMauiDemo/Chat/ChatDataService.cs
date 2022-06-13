@@ -2,6 +2,7 @@
 //using MvvmHelpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace ICSMauiDemo.Chat
@@ -14,52 +15,62 @@ namespace ICSMauiDemo.Chat
 //#else
 //        public const string BaseApiUrl = "https://laorejaapi.azurewebsites.net/"; // live prod api
 //#endif
-        public const string GetMostRecentMessagesEndpoint = "/getmostrecentmessages";
+        public string GetMostRecentMessagesEndpoint(int lang) => $"/getmostrecentmessages/{lang}";
         public const string SaveMessageEndpoint = "/savemessage";
 
         private readonly GenericRepository _genericRepository;
         private readonly LanguageService _languageService;
 
-        public ChatDataService(GenericRepository genericRepository, LanguageService languageService)
+        private string _userName;
+        public string UserName
         {
-            _genericRepository = genericRepository;
-            _languageService = languageService;
+            get 
+            { 
+                return _userName;
+            }
+            set 
+            { 
+                _userName = value; 
+            }
         }
 
-        //public async Task<ObservableRangeCollection<ChatMessageModel>> GetChatMessagesAsync(string userName)
-        //{
-        //    UriBuilder builder = new UriBuilder(BaseApiUrl)
-        //    {
-        //        //Path = UserPreferredLanguageSetting == 0
-        //        //? GetMostRecentMessagesEndpoint
-        //        //: GetMostRecentSpanishMessagesEndpoint
-        //    };
 
-        //    try
-        //    {
-        //        //var list = await _genericRepository.GetAsync<List<ChatMessageModel>>(builder.ToString());
+        public ChatDataService()
+        {
+            _genericRepository = new GenericRepository();
+            _languageService = new LanguageService();
 
-        //        //var messages = new ObservableRangeCollection<ChatMessageModel>(list);
+            UserName = Preferences.Get("username", "Unknown");
+        }
 
-        //        foreach (var message in messages)
-        //        {
-        //            // update utc time to user's time for android
-        //            var timeZoneId = TimeZoneInfo.Local.Id;
-        //            var estTimeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
-        //            var usersDateTime = TimeZoneInfo.ConvertTimeFromUtc(message.MessageDateTime, estTimeZone);
-        //            message.MessageDateTimeStr = ConvertDateTimeToReadableString(usersDateTime);
+        public async Task<ObservableCollection<ChatMessageModel>> GetChatMessagesAsync()
+        {
+            var preferredLanguage = UserName == "tina" ? 1 : 0;
 
-        //            message.IsIncoming = message.UserName == userName ? false : true;
-        //        }
+            try
+            {
+                var list = await _genericRepository.GetAsync(preferredLanguage);
 
-        //        return messages;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // todo: log error
-        //        return null;
-        //    }
-        //}
+                var messages = new ObservableCollection<ChatMessageModel>(list);
+
+                foreach (var message in messages)
+                {
+                    // update utc time to user's time for android
+                    var timeZoneId = TimeZoneInfo.Local.Id;
+                    var estTimeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+                    var usersDateTime = TimeZoneInfo.ConvertTimeFromUtc(message.MessageDateTime, estTimeZone);
+                    message.MessageDateTimeStr = ConvertDateTimeToReadableString(usersDateTime);
+
+                    message.IsIncoming = message.UserName == UserName ? false : true;
+                }
+
+                return messages;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
         public async Task<bool> SaveChatMessageAsync(ChatMessageToSaveModel model)
         {
@@ -81,11 +92,6 @@ namespace ICSMauiDemo.Chat
                 model.SpText = model.Text;
                 model.Text = translatedText;
             }
-
-            UriBuilder builder = new UriBuilder(BaseApiUrl)
-            {
-                Path = SaveMessageEndpoint
-            };
 
             await _genericRepository.PostAsync(model);
 

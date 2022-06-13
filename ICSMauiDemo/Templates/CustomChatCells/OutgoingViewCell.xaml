@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ICSMauiDemo.Templates.CustomChatCells.IncomingViewCell">
-    <Grid ColumnSpacing="2" Padding="5" Background="Yellow">
+             x:Class="ICSMauiDemo.Templates.CustomChatCells.OutgoingViewCell">
+    <Grid ColumnSpacing="2" Padding="5" BackgroundColor="Yellow">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -15,17 +15,16 @@
         </Grid.RowDefinitions>
 
         <!--Username-->
-        <Label Grid.Row="0" FontSize="Micro" Grid.Column="1" HorizontalTextAlignment="Start" 
-               Text="{Binding UserName}" TextColor="#0e4375"></Label>
-
+        <!--<Label Grid.Row="0" FontSize="Micro" Grid.Column="1" HorizontalTextAlignment="End" Text="{Binding UserName}" TextColor="#0e4375"></Label>-->
+        <Label Grid.Row="0" FontSize="Micro" Grid.Column="1" HorizontalTextAlignment="End" Text="test" TextColor="#0e4375"></Label>
         <!--Message-->
-        <Frame Grid.Row="1" Grid.Column="1" CornerRadius="7" Margin="0,0,30,0" Padding="10,8,0,8" BackgroundColor="#e6eff4" HasShadow="True">
+        <Frame Grid.Row="1" Grid.Column="1" CornerRadius="7" Margin="30,0,0,0" Padding="10,8,0,8" BackgroundColor="#ef823f" HasShadow="True">
             <StackLayout>
                 <Label TextColor="Black" Text="{Binding Text}"/>
             </StackLayout>
         </Frame>
 
         <!--DateTime-->
-        <Label FontSize="Micro" Grid.Row="2" Grid.Column="1" Text="{Binding MessageDateTimeStr}" TextColor="Gray"></Label>
+        <Label Grid.Row="2" FontSize="Micro" Grid.Column="1" HorizontalTextAlignment="End"  Text="{Binding MessageDateTimeStr}" TextColor="Gray"></Label>
     </Grid>
 </ContentView>

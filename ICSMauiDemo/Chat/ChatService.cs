@@ -29,7 +29,8 @@ namespace ICSMauiDemo.Chat
             {
                 IsBusy = true;
 
-                string negotiateJson = await client.GetStringAsync($"{SignalRConstants.HostName}/api/negotiate");
+                //string negotiateJson = await client.GetStringAsync($"{SignalRConstants.HostName}/api/negotiate");
+                string negotiateJson = await client.GetStringAsync("https://icsdemochathub.azurewebsites.net/api/negotiate");
                 var negotiate = JsonConvert.DeserializeObject<NegotiateInfoModel>(negotiateJson);
                 HubConnection connection = new HubConnectionBuilder()
                     .WithUrl(negotiate.Url, options =>

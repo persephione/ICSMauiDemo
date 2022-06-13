@@ -8,17 +8,14 @@ namespace ICSMauiDemo.Chat
     // https://docs.microsoft.com/en-us/azure/cognitive-services/Translator/quickstart-translate?pivots=programming-language-csharp
     public class LanguageService
     {
-        private readonly ILogger _logger;
-
         private static readonly string subscriptionKey = "fd76ede0721248ed94b68eeace5365f0";
         private static readonly string endpoint = "https://api.cognitive.microsofttranslator.com";
         string routeDetectLanguage = "/detect?api-version=3.0";
         string routeTranslateToSpanish = "/translate?api-version=3.0&to=es";
         string routeTranslateToEnglish = "/translate?api-version=3.0&to=en";
 
-        public LanguageService(ILogger logger) 
+        public LanguageService() 
         { 
-            _logger = logger;
         }
 
         public async Task<string> DetectLanguage(string inputText)
@@ -75,17 +72,17 @@ namespace ICSMauiDemo.Chat
                 }
                 else if (responseMessage.StatusCode == HttpStatusCode.NotFound)
                 {
-                    _logger.LogError("LangServ1", responseMessage.StatusCode.ToString());
+                    //_logger.LogError("LangServ1", responseMessage.StatusCode.ToString());
                     return string.Empty;
                 }
                 else if (responseMessage.StatusCode == HttpStatusCode.Forbidden || responseMessage.StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    _logger.LogError("LangServ2", responseMessage.StatusCode.ToString());
+                   // _logger.LogError("LangServ2", responseMessage.StatusCode.ToString());
                     return string.Empty;
                 }
                 else
                 {
-                    _logger.LogError("LangServ3", responseMessage.StatusCode.ToString());
+                    // _logger.LogError("LangServ3", responseMessage.StatusCode.ToString());
                     return string.Empty;
                 }
             }
