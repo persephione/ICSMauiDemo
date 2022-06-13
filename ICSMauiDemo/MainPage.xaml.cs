@@ -37,23 +37,8 @@ public partial class MainPage : ContentPage
                 if (VM.Messages.Count > 0)
                 {
                     MessagesListView.ScrollTo(VM.Messages.Count-1);
-                    //Device.BeginInvokeOnMainThread(() =>
-                    //{
-                    //    MessagesListView.ScrollTo(VM.Messages.Count);
-                    //});
                 }
             };
-
-            //VM.RefreshScrollDownAnimated = () =>
-            //{
-            //    if (VM.Messages.Count > 0)
-            //    {
-            //        Device.BeginInvokeOnMainThread(() =>
-            //        {
-            //            MessagesListView.ScrollTo(VM.Messages.Count);
-            //        });
-            //    }
-            //};
         }
     }
 

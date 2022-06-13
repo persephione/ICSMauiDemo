@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:ICSMauiDemo.Chat"
-             xmlns:local="clr-namespace:ICSMauiDemo.Templates.CustomChatCells"
              xmlns:viewModel="clr-namespace:ICSMauiDemo.Chat"
              xmlns:models="clr-namespace:ICSMauiDemo.Chat"
              xmlns:chat="clr-namespace:ICSMauiDemo"

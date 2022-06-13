@@ -25,7 +25,6 @@ namespace ICSMauiDemo.Chat
             }
         }
 
-
         public ChatDataService()
         {
             _genericRepository = new GenericRepository();

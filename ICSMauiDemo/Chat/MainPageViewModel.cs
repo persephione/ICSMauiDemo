@@ -1,32 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace ICSMauiDemo.Chat
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
-        
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         private readonly ChatDataService _chatDataService;
         ChatService signalR;
         public Command SendMessageCommand { get; }
         public Command ConnectCommand { get; }
         public Command DisconnectCommand { get; }
         public Action RefreshScrollDown;
-        //public Action RefreshScrollDownAnimated;
 
         public MainPageViewModel()
         {
@@ -41,7 +27,6 @@ namespace ICSMauiDemo.Chat
 
             SendMessageCommand = new Command(async () => await SendMessage());
             ConnectCommand = new Command(async () => await Connect());
-
         }
 
         #region Properties
@@ -229,19 +214,12 @@ namespace ICSMauiDemo.Chat
         void AddLocalMessage(ChatMessageModel message)
         {
             Messages.Add(message);
-
-            //Device.BeginInvokeOnMainThread(() =>
-            //{
-            //    Messages.Add(message);
-            //});
-
             RefreshScrollDown();
         }
 
         private async Task GetRecentMessages()
         {
             Messages = await _chatDataService.GetChatMessagesAsync();
-
             RefreshScrollDown();
         }
 
