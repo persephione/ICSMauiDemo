@@ -1,4 +1,8 @@
 ﻿using ICSMauiDemo.Chat;
+using Microsoft.AspNetCore.SignalR.Client;
+using System;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace ICSMauiDemo;
 
@@ -17,6 +21,8 @@ public partial class MainPage : ContentPage
             OnPropertyChanged();
         }
     }
+
+    HubConnection connection;
 
     public MainPage()
 	{
