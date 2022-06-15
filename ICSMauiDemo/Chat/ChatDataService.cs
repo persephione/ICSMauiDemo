@@ -86,6 +86,22 @@ namespace ICSMauiDemo.Chat
             await _genericRepository.PostAsync(model);
         }
 
+        public async Task<string> ConvertNewReceivedMessagesHack(string username, string message)
+        {
+            var language = await _languageService.DetectLanguage(message);
+
+            if (username == "tina" && language == "en")
+            {
+                return await _languageService.TranslateText(message, 1);
+            }
+            else if(username == "tony" && language != "en")
+            {
+                return await _languageService.TranslateText(message, 0);
+            }
+            return message;
+        }
+
+
         private string ConvertDateTimeToReadableString(DateTime date)
         {
             var newDate = date.ToString("MM/dd/yyyy");

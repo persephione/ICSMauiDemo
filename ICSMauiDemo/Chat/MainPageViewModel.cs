@@ -141,8 +141,6 @@ namespace ICSMauiDemo.Chat
 
         private async Task Connect()
         {
-            IsBusy = true;
-
             try
             {
                 // get recent messages from db and display
@@ -150,12 +148,9 @@ namespace ICSMauiDemo.Chat
 
                 await signalR.ConnectAsync();
                 IsConnectedToChatHub = true;
-
-                IsBusy = false;
             }
             catch (Exception ex)
             {
-                IsBusy = false;
             }
         }
 
@@ -163,15 +158,12 @@ namespace ICSMauiDemo.Chat
         {
             try
             {
-                IsBusy = true;
-
                 // copy the outgoing text to another string and empty it out to quickly remove from entry box on view
                 MessageToSave = string.Copy(OutGoingText);
                 OutGoingText = string.Empty;
 
                 if (string.IsNullOrWhiteSpace(MessageToSave))
                 {
-                    IsBusy = false;
                     return;
                 }
 
@@ -184,7 +176,6 @@ namespace ICSMauiDemo.Chat
             {
                 
             }
-            IsBusy = false;
         }
 
         void SignalR_ConnectionChanged(object sender, bool success, string message)
@@ -195,7 +186,7 @@ namespace ICSMauiDemo.Chat
             //});
         }
 
-        void SignalR_NewMessageReceived(object sender, AzureChatMessageModel message)
+        async void SignalR_NewMessageReceived(object sender, AzureChatMessageModel message)
         {
             if (message == null)
                 return;
@@ -203,7 +194,7 @@ namespace ICSMauiDemo.Chat
             var finalMessage = new ChatMessageModel
             {
                 UserName = message.Name,
-                Text = message.Text,
+                Text = await _chatDataService.ConvertNewReceivedMessagesHack(UserName, message.Text),
                 MessageDateTimeStr = ConvertDateTimeToReadableString(DateTime.Now),
                 IsIncoming = message.Name.Equals(UserName) ? false : true
             };

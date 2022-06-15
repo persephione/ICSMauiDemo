@@ -1,8 +1,4 @@
 ﻿using ICSMauiDemo.Chat;
-using Microsoft.AspNetCore.SignalR.Client;
-using System;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace ICSMauiDemo;
 
@@ -22,8 +18,6 @@ public partial class MainPage : ContentPage
         }
     }
 
-    HubConnection connection;
-
     public MainPage()
 	{
 		InitializeComponent();
@@ -42,7 +36,7 @@ public partial class MainPage : ContentPage
             {
                 if (VM.Messages.Count > 0)
                 {
-                    MessagesListView.ScrollTo(VM.Messages.Count-1);
+                    MessagesListView.ScrollTo(VM.Messages.Count);
                 }
             };
         }
